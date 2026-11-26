@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Results</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 640px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-info {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .lookup-box {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #1d4ed8; }
+        button:disabled { background: #9ca3af; cursor: not-allowed; }
+
+        .result-box {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .result-box.visible { display: block; }
+
+        .greeting {
+            font-size: 1.02rem;
+            color: #334155;
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+        }
+
+        .grade-display {
+            text-align: center;
+            margin-bottom: 1.75rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .grade-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .grade-value {
+            font-size: 3.25rem;
+            font-weight: 700;
+            margin: 0.25rem 0;
+            line-height: 1.1;
+        }
+
+        .grade-A, .grade-B { color: #16a34a; }
+        .grade-C { color: #2563eb; }
+        .grade-D { color: #ca8a04; }
+        .grade-E { color: #ea580c; }
+        .grade-F { color: #dc2626; }
+        /* HT26 outcome scale (NA310G): VG, G, CONDITIONAL, U */
+        .grade-VG { color: #16a34a; }
+        .grade-G { color: #2563eb; }
+        .grade-CONDITIONAL { color: #ca8a04; font-size: 2rem; }
+        .grade-U { color: #dc2626; }
+        .grade-PENDING { color: #6b7280; font-size: 2rem; }
+        .draft-banner { background: #fef3c7; color: #92400e; padding: 0.5rem; text-align: center; font-weight: 600; }
+        .outcome-label { color: #6b7280; font-size: 0.95rem; margin-top: 0.25rem; }
+        .revision-items { text-align: left; margin: 0.75rem auto 0; max-width: 34rem; }
+        .revision-items div { margin: 0.35rem 0; }
+
+        .revision-notice {
+            display: inline-block;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .revision-note-box {
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #dc2626;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #7f1d1d;
+            text-align: left;
+        }
+
+        .followup-note-box {
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid #2563eb;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #1e3a8a;
+            text-align: left;
+            white-space: pre-line;
+        }
+
+        .feedback-section {
+            margin-top: 0.25rem;
+        }
+
+        .feedback-section h3 {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feedback-text {
+            line-height: 1.65;
+            white-space: pre-wrap;
+            font-size: 0.98rem;
+            color: #1f2937;
+        }
+
+        .general-comments {
+            margin-top: 2rem;
+            padding: 1.25rem 1.5rem;
+            background: #f8fafc;
+            border-left: 3px solid #64748b;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .general-comments .label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .general-comments .body {
+            white-space: pre-wrap;
+        }
+
+        .closing {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #334155;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .download-row {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .download-btn {
+            background: #334155;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover { background: #1e293b; }
+
+        .error-msg {
+            color: #dc2626;
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        .error-msg.visible { display: block; }
+
+        .expired-msg {
+            text-align: center;
+            color: #666;
+            padding: 3rem 1rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* Print styles — what ends up in the Save-as-PDF output */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                display: block;
+            }
+            .container {
+                max-width: 100%;
+                padding: 1cm 1.5cm;
+            }
+            #header {
+                margin-bottom: 1.5rem;
+            }
+            #lookup-view,
+            #expired-view,
+            .download-row,
+            footer {
+                display: none !important;
+            }
+            .result-box {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                page-break-inside: avoid;
+            }
+            .grade-value {
+                color: #000 !important;
+            }
+            .revision-note-box,
+            .followup-note-box,
+            .general-comments {
+                page-break-inside: avoid;
+            }
+            a { color: #000; text-decoration: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="header">
+            <h1 id="page-title">Assignment Results</h1>
+            <p class="course-info" id="course-info"></p>
+        </div>
+
+        <div id="expired-view" class="expired-msg" style="display:none;">
+            Results are no longer available.
+        </div>
+
+        <div id="lookup-view" class="lookup-box">
+            <label for="student-id">Enter your code</label>
+            <div class="input-row">
+                <input type="text" id="student-id" placeholder="e.g. 2HA9JR" autocomplete="off" autofocus>
+                <button id="lookup-btn" onclick="lookup()">View</button>
+            </div>
+            <p class="error-msg" id="error-msg"></p>
+        </div>
+
+        <div id="result-view" class="result-box">
+            <div id="greeting" class="greeting" style="display:none;"></div>
+
+            <div class="grade-display">
+                <div class="grade-label">Grade</div>
+                <div class="grade-value" id="grade-value"></div>
+                <div class="outcome-label" id="outcome-label" style="display:none;"></div>
+                <div id="revision-notice" class="revision-notice" style="display:none;">
+                    Revision required
+                </div>
+                <div id="revision-note-box" class="revision-note-box" style="display:none;"></div>
+                <div id="revision-items" class="revision-items" style="display:none;"></div>
+            </div>
+
+            <!-- Per-student invitation to a short follow-up conversation (field followup_note);
+                 the grade is still shown. Added 26 Nov 2026 (NA310G HT26). -->
+            <div id="followup-note-box" class="followup-note-box" style="display:none;"></div>
+
+            <div class="feedback-section">
+                <h3>Individual comments</h3>
+                <div class="feedback-text" id="feedback-text"></div>
+            </div>
+
+            <div id="general-comments" class="general-comments" style="display:none;">
+                <span class="label">PS — general comments for everyone to consider</span>
+                <div class="body" id="general-comments-body"></div>
+            </div>
+
+            <div id="closing" class="closing" style="display:none;"></div>
+
+            <div class="download-row">
+                <button class="download-btn" onclick="window.print()">Save as PDF</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    let resultsData = null;
+    let used = false;
+
+    // Codes are typed by students: ignore case and spaces ("2ha9jr " = "2HA9JR").
+    function normaliseCode(s) { return (s || '').replace(/\s+/g, '').toUpperCase(); }
+
+    // One key per course and term, so last term's lookup does not block this one.
+    function storageKey() {
+        const m = (resultsData && resultsData._meta) || {};
+        return ('lookup_used_' + (m.course || '') + '_' + (m.semester || '')).replace(/[^A-Za-z0-9_]/g, '_');
+    }
+
+    async function init() {
+        try {
+            const resp = await fetch('results.json');
+            if (!resp.ok) {
+                document.getElementById('lookup-view').style.display = 'none';
+                document.getElementById('expired-view').style.display = 'block';
+                return;
+            }
+            resultsData = await resp.json();
+
+            if (resultsData._meta) {
+                const meta = resultsData._meta;
+                document.getElementById('page-title').textContent =
+                    meta.title || 'Assignment Results';
+                document.getElementById('course-info').textContent =
+                    [meta.course, meta.semester, meta.assignment].filter(Boolean).join(' — ');
+
+                if (meta.valid_until) {
+                    const expiry = new Date(meta.valid_until);
+                    if (new Date() > expiry) {
+                        document.getElementById('lookup-view').style.display = 'none';
+                        document.getElementById('expired-view').style.display = 'block';
+                        return;
+                    }
+                }
+            }
+
+            // Soft one-per-device: if an ID was already successfully looked up
+            // on this browser, show that student's (current) result directly
+            // and skip the input form. Lookup is still possible with a fresh
+            // browser profile — this is friction, not enforcement.
+            let prevId = null;
+            try { prevId = localStorage.getItem(storageKey()); } catch (e) {}
+            if (prevId && resultsData[prevId]) {
+                document.getElementById('student-id').value = prevId;
+                lookup();
+            }
+        } catch (e) {
+            document.getElementById('lookup-view').style.display = 'none';
+            document.getElementById('expired-view').style.display = 'block';
+        }
+    }
+
+    function lookup() {
+        if (!resultsData || used) return;
+        // A draft (the grading assistant's unreviewed output) is for the
+        // examiner's local preview only: say so loudly.
+        if (resultsData._meta && resultsData._meta.status === 'draft' && !document.getElementById('draft-banner')) {
+            const b = document.createElement('div');
+            b.id = 'draft-banner'; b.className = 'draft-banner';
+            b.textContent = 'DRAFT: not reviewed by the examiner. Not for students.';
+            document.body.prepend(b);
+        }
+
+        const idInput = normaliseCode(document.getElementById('student-id').value);
+        const errorEl = document.getElementById('error-msg');
+        const resultEl = document.getElementById('result-view');
+
+        errorEl.classList.remove('visible');
+
+        if (!idInput) {
+            errorEl.textContent = 'Please enter your code.';
+            errorEl.classList.add('visible');
+            return;
+        }
+
+        let student = resultsData[idInput];
+        if (!student) {
+            errorEl.textContent = 'Code not found.';
+            errorEl.classList.add('visible');
+            used = true;
+            document.getElementById('lookup-btn').disabled = true;
+            document.getElementById('student-id').disabled = true;
+            setTimeout(() => {
+                errorEl.textContent = 'No more attempts. Contact the examiner if you need help.';
+            }, 2000);
+            return;
+        }
+
+        used = true;
+        try { localStorage.setItem(storageKey(), idInput); } catch (e) {}
+        document.getElementById('lookup-btn').disabled = true;
+        document.getElementById('student-id').disabled = true;
+        document.getElementById('lookup-view').style.display = 'none';
+
+        const meta = resultsData._meta || {};
+
+        // Greeting
+        if (meta.greeting) {
+            const el = document.getElementById('greeting');
+            el.textContent = meta.greeting;
+            el.style.display = 'block';
+        }
+
+        // Grade
+        const gradeEl = document.getElementById('grade-value');
+        const pending = student.held_for_followup && !student.followup_done;
+        gradeEl.textContent = pending ? 'Pending'
+            : (student.grade === 'CONDITIONAL' ? 'Conditional pass' : student.grade);
+        if (pending) { student = Object.assign({}, student, {grade: 'PENDING', major_revision: '', minor_revision: '',
+            revision_required: false, revision_note: '', outcome_label: 'Pending a short follow-up conversation',
+            feedback: 'Your result will be final after a short follow-up conversation (about 10 minutes). You will be contacted.'}); }
+        gradeEl.className = 'grade-value grade-' + student.grade;
+        if (student.outcome_label) {
+            const lab = document.getElementById('outcome-label');
+            lab.textContent = student.outcome_label;
+            lab.style.display = 'block';
+        }
+        if (student.major_revision || student.minor_revision) {
+            const box = document.getElementById('revision-items');
+            box.innerHTML = '';
+            const add = (label, text) => {
+                if (!text) return;
+                const d = document.createElement('div');
+                const b = document.createElement('b');
+                b.textContent = label + ': ';
+                d.appendChild(b);
+                d.appendChild(document.createTextNode(text));
+                box.appendChild(d);
+            };
+            add('Major revision', student.major_revision);
+            add('Minor revision (small fixes)', student.minor_revision);
+            add('Deadline', student.revision_deadline);
+            box.style.display = 'block';
+        }
+
+        // Revision
+        if (student.revision_required) {
+            document.getElementById('revision-notice').style.display = 'inline-block';
+            if (student.revision_note) {
+                const noteBox = document.getElementById('revision-note-box');
+                noteBox.textContent = student.revision_note;
+                noteBox.style.display = 'block';
+            }
+        }
+
+        // Follow-up conversation invitation (only for the codes that carry followup_note)
+        if (student.followup_note && !pending) {
+            const fb = document.getElementById('followup-note-box');
+            fb.textContent = student.followup_note;
+            fb.style.display = 'block';
+        }
+
+        // Individual feedback
+        document.getElementById('feedback-text').textContent = student.feedback;
+
+        // General comments PS
+        if (meta.general_comments && meta.general_comments.trim()) {
+            document.getElementById('general-comments-body').textContent = meta.general_comments;
+            document.getElementById('general-comments').style.display = 'block';
+        }
+
+        // Closing
+        if (meta.closing) {
+            const el = document.getElementById('closing');
+            el.textContent = meta.closing;
+            el.style.display = 'block';
+        }
+
+        // Update page title for Save-as-PDF filename
+        document.title = `${meta.course || 'Assignment'} — ${student.grade} — ${idInput}`;
+
+        resultEl.classList.add('visible');
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') lookup();
+    });
+
+    init();
+    </script>
+</body>
+</html>
