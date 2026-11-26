@@ -236,6 +236,7 @@
             margin-top: 2rem;
             display: flex;
             justify-content: center;
+            gap: 0.75rem;
         }
 
         .download-btn {
@@ -358,6 +359,7 @@
 
             <div class="download-row">
                 <button class="download-btn" onclick="window.print()">Save as PDF</button>
+                <button class="download-btn" onclick="window.location.reload()">Close</button>
             </div>
         </div>
 
@@ -403,16 +405,10 @@
                 }
             }
 
-            // Soft one-per-device: if an ID was already successfully looked up
-            // on this browser, show that student's (current) result directly
-            // and skip the input form. Lookup is still possible with a fresh
-            // browser profile — this is friction, not enforcement.
-            let prevId = null;
-            try { prevId = localStorage.getItem(storageKey()); } catch (e) {}
-            if (prevId && resultsData[prevId]) {
-                document.getElementById('student-id').value = prevId;
-                lookup();
-            }
+            // No memory of earlier lookups (26 Nov 2026): the old one-per-device marker
+            // made a shared computer show the first student's result to the next one.
+            // Remove any marker left by an earlier visit; nothing is stored any more.
+            try { localStorage.removeItem(storageKey()); } catch (e) {}
         } catch (e) {
             document.getElementById('lookup-view').style.display = 'none';
             document.getElementById('expired-view').style.display = 'block';
@@ -444,19 +440,17 @@
 
         let student = resultsData[idInput];
         if (!student) {
-            errorEl.textContent = 'Code not found.';
+            // No attempt limit (26 Nov 2026): a stressed or dyslexic student who mistypes
+            // must be able to try again. Codes have six characters and never contain
+            // 0, O, 1, I or L, so say that.
+            errorEl.textContent = 'Code not found. Check the code on the title page of your report and try again: '
+                + 'six characters, and codes never contain 0, O, 1, I or L. '
+                + 'If it still does not work, e-mail the examiner.';
             errorEl.classList.add('visible');
-            used = true;
-            document.getElementById('lookup-btn').disabled = true;
-            document.getElementById('student-id').disabled = true;
-            setTimeout(() => {
-                errorEl.textContent = 'No more attempts. Contact the examiner if you need help.';
-            }, 2000);
             return;
         }
 
         used = true;
-        try { localStorage.setItem(storageKey(), idInput); } catch (e) {}
         document.getElementById('lookup-btn').disabled = true;
         document.getElementById('student-id').disabled = true;
         document.getElementById('lookup-view').style.display = 'none';
