@@ -7,7 +7,7 @@
     "scale": "HT26",
     "status": "final",
     "valid_until": "2026-12-03",
-    "generated": "2026-11-26 10:06",
+    "generated": "2026-11-26 10:26",
     "greeting": "Hi, I have now examined your report: your result and comments are below. Save this page with the Save as PDF button at the bottom: it is removed after Thursday 3 December.",
     "closing": "The results will be reported in Ladok shortly.\nKind regards,\nMagnus",
     "general_comments": ""
@@ -176,7 +176,8 @@
     "revision_deadline": "",
     "held_for_followup": false,
     "needs_review": false,
-    "followup_note": "Short follow-up conversation: as the instructions describe, a few students are drawn at random for a short follow-up conversation, and you are one of the two drawn this term. Being drawn says nothing about you or your report. The conversation takes about 10 minutes on Zoom, is not graded on its own, and confirms that the report is yours: you walk me through a few lines of your own code and a couple of numbers in your tables, with your report in front of you. Nobody expects you to know Stata by heart.\nPlease e-mail magnus.lodefalk@oru.se, subject \"NA310G: follow-up\", with two times that suit you within these slots:\n1. Monday 30 November, 09.00-17.00 (except 10.00-10.30 and 11.45-12.45)\n2. Friday 4 December, 10.00-11.30\nI will confirm one of them and send a Zoom link. Your grade is registered in Ladok after the conversation."
+    "followup_note": "Short follow-up conversation: as the instructions describe, a few students are drawn at random for a short follow-up conversation, and you are one of the two drawn this term. Being drawn says nothing about you or your report. The conversation takes about 10 minutes on Zoom, is not graded on its own, and confirms that the report is yours: you walk me through a few lines of your own code and a couple of numbers in your tables, with your report in front of you. Nobody expects you to know Stata by heart.\nPlease e-mail magnus.lodefalk@oru.se, subject \"NA310G: follow-up\", with two times that suit you within these slots:\n1. Monday 30 November, 09.00-17.00 (except 10.00-10.30 and 11.45-12.45)\n2. Friday 4 December, 10.00-11.30\nI will confirm one of them and send a Zoom link. Your grade is registered in Ladok after the conversation.",
+    "closing": "Your result will be reported in Ladok after our conversation.\nKind regards,\nMagnus"
   },
   "7V8USM": {
     "grade": "G",
@@ -188,7 +189,8 @@
     "revision_deadline": "",
     "held_for_followup": false,
     "needs_review": false,
-    "followup_note": "Short follow-up conversation: as the instructions describe, a few students are drawn at random for a short follow-up conversation, and you are one of the two drawn this term. Being drawn says nothing about you or your report. The conversation takes about 10 minutes on Zoom, is not graded on its own, and confirms that the report is yours: you walk me through a few lines of your own code and a couple of numbers in your tables, with your report in front of you. Nobody expects you to know Stata by heart.\nPlease e-mail magnus.lodefalk@oru.se, subject \"NA310G: follow-up\", with two times that suit you within these slots:\n1. Monday 30 November, 09.00-17.00 (except 10.00-10.30 and 11.45-12.45)\n2. Friday 4 December, 10.00-11.30\nI will confirm one of them and send a Zoom link. Your grade is registered in Ladok after the conversation."
+    "followup_note": "Short follow-up conversation: as the instructions describe, a few students are drawn at random for a short follow-up conversation, and you are one of the two drawn this term. Being drawn says nothing about you or your report. The conversation takes about 10 minutes on Zoom, is not graded on its own, and confirms that the report is yours: you walk me through a few lines of your own code and a couple of numbers in your tables, with your report in front of you. Nobody expects you to know Stata by heart.\nPlease e-mail magnus.lodefalk@oru.se, subject \"NA310G: follow-up\", with two times that suit you within these slots:\n1. Monday 30 November, 09.00-17.00 (except 10.00-10.30 and 11.45-12.45)\n2. Friday 4 December, 10.00-11.30\nI will confirm one of them and send a Zoom link. Your grade is registered in Ladok after the conversation.",
+    "closing": "Your result will be reported in Ladok after our conversation.\nKind regards,\nMagnus"
   },
   "7YZEBM": {
     "grade": "G",
@@ -294,10 +296,11 @@
     "outcome_label": "Conditional pass (revision required)",
     "feedback": "Villkorat godkänt: rapporten kräver en större revideringsomgång. Inlämningen innehåller bara sektion 1: sektionerna 2 till 8 är rubriker utan text, och analysen saknas. Det som finns är en bra grund att bygga vidare på.\n- Sektion 1 motiverar frågan väl, med SCB och Engberg et al. (2025), och pekar redan på det centrala problemet: AI-företag skiljer sig systematiskt från andra företag. Frågeställningen är precis och anger både den poolade jämförelsen och jämförelsen av varje företag med sig självt över tid.\n- Loggarna visar att urvalet redan är gjort i koden: tillverkningsindustrin (SNI 10–33), Kalmar och Västerbotten uteslutna, 1 962 företagsår, och nollvärden räknade innan logaritmerna skapas. Det arbetet ska nu beskrivas i sektion 4.\n- Sektionerna 2 till 8 saknar text: sammanfattningen av en av de stjärnmärkta artiklarna, teori och hypoteser, data och urval med beskrivande statistik, det ekonometriska angreppssättet, resultaten, testerna och slutsatserna.\n- Ingen skattning redovisas: poolad OLS och fixa eller slumpmässiga effekter, tolkningen av ai_firm-koefficienten (tecken, storlek, enhet, signifikans, allt annat lika), Hausmantestet och de två testerna i sektion 7 saknas, liksom slutsatsen som besvarar frågan.\n- Bilagan: do-filerna 0 till 2 finns som skärmbilder, men do-filerna för skattningar och tester och master.do saknas. Skriv ut do-filerna till PDF från Stata som text. Den slutliga loggen ska komma från en körning av master.do, och verifieringsraden och AI-deklarationen saknas. Loggens första rader visar sökvägen till din mapp med ditt användarnamn: ta bort de raderna i PDF:en.",
     "revision_required": true,
-    "major_revision": "(1) Missing: every part of the template is there (sections 2 to 8 have no text). (2) Missing: the data and sample are described. (3) Missing: pooled OLS and fixed or random effects are estimated and presented correctly. (4) Missing: the main coefficient is interpreted correctly (sign, size, unit, significance, ceteris paribus). (5) Missing: the Hausman test (or its robust version) and the two tests in section 7 are run and read correctly. (6) Missing: the conclusion answers the question. (7) Missing: the formalities and the appendix are complete (do-files for estimation and tests, master.do, final log, verification line, AI declaration).",
+    "major_revision": "",
     "minor_revision": "",
     "revision_deadline": "Sunday 13 December 2026, 16:00",
     "held_for_followup": false,
-    "needs_review": false
+    "needs_review": false,
+    "closing": "Your result will be reported in Ladok once your revised report has been examined.\nKind regards,\nMagnus"
   }
 }

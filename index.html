@@ -478,7 +478,9 @@
             lab.textContent = student.outcome_label;
             lab.style.display = 'block';
         }
-        if (student.major_revision || student.minor_revision) {
+        // The revision items may be left out of the deployed file when the comments carry
+        // them (NA310G HT26); the deadline is then shown alone.
+        if (student.major_revision || student.minor_revision || student.revision_deadline) {
             const box = document.getElementById('revision-items');
             box.innerHTML = '';
             const add = (label, text) => {
@@ -523,9 +525,11 @@
         }
 
         // Closing
-        if (meta.closing) {
+        // A per-student closing (e.g. a conditional pass) overrides the general one.
+        const closingText = student.closing || meta.closing;
+        if (closingText) {
             const el = document.getElementById('closing');
-            el.textContent = meta.closing;
+            el.textContent = closingText;
             el.style.display = 'block';
         }
 
