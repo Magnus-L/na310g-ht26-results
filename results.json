@@ -7,7 +7,7 @@
     "scale": "HT26",
     "status": "final",
     "valid_until": "2026-12-03",
-    "generated": "2026-11-26 10:26",
+    "generated": "2026-11-26 11:59",
     "greeting": "Hi, I have now examined your report: your result and comments are below. Save this page with the Save as PDF button at the bottom: it is removed after Thursday 3 December.",
     "closing": "The results will be reported in Ladok shortly.\nKind regards,\nMagnus",
     "general_comments": ""
@@ -302,5 +302,16 @@
     "held_for_followup": false,
     "needs_review": false,
     "closing": "Your result will be reported in Ladok once your revised report has been examined.\nKind regards,\nMagnus"
+  },
+  "4W3BNZ": {
+    "grade": "G",
+    "outcome_label": "Pass (G)",
+    "feedback": "The report answers the research question with a fixed-effects panel model, but the instrument part needed for a VG is not met.\n- Section 4.1: each sample restriction is documented with the number of observations removed. Good.\n- Section 5.1: relevance is not argued for either candidate; why broadband expansion or regional university AI output would shift a firm's posting of AI ads is not explained.\n- Section 5.1: exogeneity is dismissed in one general sentence, with no channel discussed through which either regional variable could affect salaries directly.\n- Section 5.1: both candidates are ruled out in a single sentence, which is not a reasoned case that no credible instrument exists.\n- References: several works cited in the text are missing from the reference list (Acemoglu and Restrepo 2019, Deming and Noray 2020, Alekseeva et al. 2020, Baruffaldi et al. 2020, Webb 2020), and Felten et al. is cited as 2018 in the text but listed as 2021.",
+    "revision_required": false,
+    "major_revision": "",
+    "minor_revision": "",
+    "revision_deadline": "",
+    "held_for_followup": false,
+    "needs_review": false
   }
 }
